@@ -29,7 +29,7 @@ sudo modprobe br_netfilter
 sudo apt update
 sudo apt install -y docker.io
 sudo systemctl start docker && sudo systemctl enable docker
-sudo gpasswd -a ${USER} docker
+sudo gpasswd -a $USER docker
 # docker version
 echo "====== please check whether docker is ready ======"
 
