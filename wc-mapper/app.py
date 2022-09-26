@@ -14,7 +14,7 @@ AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 @app.route('/')
-def hello_world():
+def wc_map():
     with open('/tmp/rookObj', 'w+') as f:
         f.write('Test successful!')
 

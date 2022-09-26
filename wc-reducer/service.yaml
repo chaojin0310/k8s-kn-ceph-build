@@ -1,16 +1,14 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: helloworld-python
+  name: word-count-reducer
   namespace: default
 spec:
   template:
     spec:
       containers:
-      - image: docker.io/{username}/helloworld-python
+      - image: docker.io/chaojin0310/word-count-reducer
         env:
-        - name: TARGET
-          value: "Python Sample v1"
         - name: AWS_HOST
           value: 0
         - name: AWS_PORT

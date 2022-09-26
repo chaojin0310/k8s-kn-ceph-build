@@ -1,0 +1,21 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: word-count-mapper
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - image: docker.io/chaojin0310/word-count-mapper
+        env:
+        - name: AWS_HOST
+          value: 0
+        - name: AWS_PORT
+          value: 0
+        - name: BUCKET_NAME
+          value: 0
+        - name: AWS_ACCESS_KEY_ID
+          value: 0
+        - name: AWS_SECRET_ACCESS_KEY
+          value: 0
