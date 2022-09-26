@@ -28,8 +28,6 @@ kubectl patch configmap/config-network \
 # kubectl patch svc kourier -n kourier-system -p '{"spec": {"type": "LoadBalancer", "externalIPs": ["128.110.218.122"]}}'
 # fetch the External IP or CNAME
 kubectl --namespace kourier-system get service kourier
-# verify the installation
-kubectl get pods -n knative-serving
 
 
 # # Install Knative Eventing with yaml
