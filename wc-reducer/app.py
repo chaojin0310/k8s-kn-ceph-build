@@ -65,20 +65,20 @@ def wc_reduce(max_id):
                 cnt[word] += num
 
 
-    # upload final results
-    output_path = "/app/wc_result"
-    output_name = "wc_result"
-    with open(output_path, "w+") as f:
-        for k in cnt:
-            f.write(k+" "+str(cnt[k])+"\n")
+    # # upload final results
+    # output_path = "/app/wc_result"
+    # output_name = "wc_result"
+    # with open(output_path, "w+") as f:
+    #     for k in cnt:
+    #         f.write(k+" "+str(cnt[k])+"\n")
     
-    try:
-        s3_client.upload_file(output_path, BUCKET_NAME, output_name)
-    except ClientError as e:
-        logging.error(e)
-        return "Failed to upload output data\n"
+    # try:
+    #     s3_client.upload_file(output_path, BUCKET_NAME, output_name)
+    # except ClientError as e:
+    #     logging.error(e)
+    #     return "Failed to upload output data\n"
     
-    return "Output data uploaded\n"
+    return cnt
 
 
 if __name__ == "__main__":
