@@ -44,7 +44,7 @@ def wc_reduce(max_id):
     cnt = dict()
 
     # iterate over all intermediate files
-    for id in range(max_id+1):
+    for id in range(1):
         # download intermediate data from s3
         input_path = "/app/intermediate_data_"+str(id)
         input_name = "intermediate_data_"+str(id)
@@ -54,15 +54,15 @@ def wc_reduce(max_id):
             logging.error(e)
             return "Failed to download {}\n".format(input_name)
 
-        # word count reducing computation
-        res = read(input_path)
-        for line in res:
-            word = line[0]
-            num = int(line[1].strip())
-            if not word in cnt:
-                cnt[word] = num
-            else:
-                cnt[word] += num
+        # # word count reducing computation
+        # res = read(input_path)
+        # for line in res:
+        #     word = line[0]
+        #     num = int(line[1].strip())
+        #     if not word in cnt:
+        #         cnt[word] = num
+        #     else:
+        #         cnt[word] += num
 
 
     # # upload final results
