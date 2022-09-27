@@ -33,7 +33,7 @@ def read(filename, split = " "):
     return return_list
 
 @app.route('/id/<id>')
-def wc_reduce(id):
+def wc_reduce(id):  # seems only 'id' could be used
     s3_client = boto3.client(
         service_name='s3',
         endpoint_url='http://{}:{}'.format(AWS_HOST, AWS_PORT),
@@ -42,10 +42,9 @@ def wc_reduce(id):
     )
 
     cnt = dict()
-    return id
 
     # iterate over all intermediate files
-    for i in range(id+1):
+    for i in range(int(id)+1):
         # download intermediate data from s3
         input_path = "/app/intermediate_data_"+str(i)
         input_name = "intermediate_data_"+str(i)
@@ -79,7 +78,7 @@ def wc_reduce(id):
         logging.error(e)
         return "Failed to upload output data\n"
     
-    return cnt
+    return "Word count results uploaded\n"
 
 
 if __name__ == "__main__":
