@@ -42,9 +42,10 @@ def wc_reduce(max_id):
     )
 
     cnt = dict()
+    return max_id
 
     # iterate over all intermediate files
-    for id in range(int(max_id.strip())+1):
+    for id in range(max_id):
         # download intermediate data from s3
         input_path = "/app/intermediate_data_"+str(id)
         input_name = "intermediate_data_"+str(id)
