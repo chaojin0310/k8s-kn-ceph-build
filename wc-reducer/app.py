@@ -32,8 +32,8 @@ def read(filename, split = " "):
             tmpstr = f.readline()
     return return_list
 
-@app.route('/max_id/<max_id>')
-def wc_reduce(max_id):
+@app.route('/num/<num>')
+def wc_reduce(num):
     s3_client = boto3.client(
         service_name='s3',
         endpoint_url='http://{}:{}'.format(AWS_HOST, AWS_PORT),
@@ -42,7 +42,7 @@ def wc_reduce(max_id):
     )
 
     cnt = dict()
-    return max_id
+    return num
 
     # iterate over all intermediate files
     for id in range(max_id):
