@@ -1,10 +1,8 @@
 import os
-import sys
 import re
-
-from flask import Flask
 import boto3
 import logging
+from flask import Flask
 from botocore.exceptions import ClientError
 
 app = Flask(__name__)
@@ -34,9 +32,8 @@ def read(filename, split = " "):
             tmpstr = f.readline()
     return return_list
 
-
 @app.route('/id/<id>')
-def wc_map():
+def wc_map(id):
     s3_client = boto3.client(
         service_name='s3',
         endpoint_url='http://{}:{}'.format(AWS_HOST, AWS_PORT),
@@ -45,13 +42,19 @@ def wc_map():
     )
 
     # download from s3
+    input_path = "/app/input"+str(id)
+    input_name = "input"+str(id)
+    try:
+        s3_client.download_file(BUCKET_NAME, input_name, input_path)
+    except ClientError as e:
+        logging.error(e)
+        return "Failed to download input data\n"
 
-    input_path = "/input0"
+    # word count mapping computation
     res = read(input_path)
 
-    output_path = "/output0"
-    output_name = "intermediate_data_0"
-
+    output_path = "/app/output"+str(id)
+    output_name = "intermediate_data_"+str(id)
     token_list = [',', '.', '!']
 
     with open(output_path, 'w+') as f:
@@ -64,11 +67,12 @@ def wc_map():
                 line[i] = line[i].strip(",.!\n")
                 f.write(line[i]+" 1\n")
 
+    # upload intermediate data
     try:
-        s3_client.upload_file(output_path, BUCKET_NAME, "intermediate_data_0")
+        s3_client.upload_file(output_path, BUCKET_NAME, output_name)
     except ClientError as e:
         logging.error(e)
-        return "Uploading failed\n"
+        return "Failed to upload intermediate data\n"
     
     return "Intermediate data uploaded\n"
 
