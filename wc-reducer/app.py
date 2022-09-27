@@ -44,7 +44,7 @@ def wc_reduce(max_id):
     cnt = dict()
 
     # iterate over all intermediate files
-    for id in range(1):
+    for id in range(int(max_id.strip())+1):
         # download intermediate data from s3
         input_path = "/app/intermediate_data_"+str(id)
         input_name = "intermediate_data_"+str(id)
@@ -54,29 +54,29 @@ def wc_reduce(max_id):
             logging.error(e)
             return "Failed to download {}\n".format(input_name)
 
-        # # word count reducing computation
-        # res = read(input_path)
-        # for line in res:
-        #     word = line[0]
-        #     num = int(line[1].strip())
-        #     if not word in cnt:
-        #         cnt[word] = num
-        #     else:
-        #         cnt[word] += num
+        # word count reducing computation
+        res = read(input_path)
+        for line in res:
+            word = line[0]
+            num = int(line[1].strip())
+            if not word in cnt:
+                cnt[word] = num
+            else:
+                cnt[word] += num
 
 
-    # # upload final results
-    # output_path = "/app/wc_result"
-    # output_name = "wc_result"
-    # with open(output_path, "w+") as f:
-    #     for k in cnt:
-    #         f.write(k+" "+str(cnt[k])+"\n")
+    # upload final results
+    output_path = "/app/wc_result"
+    output_name = "wc_result"
+    with open(output_path, "w+") as f:
+        for k in cnt:
+            f.write(k+" "+str(cnt[k])+"\n")
     
-    # try:
-    #     s3_client.upload_file(output_path, BUCKET_NAME, output_name)
-    # except ClientError as e:
-    #     logging.error(e)
-    #     return "Failed to upload output data\n"
+    try:
+        s3_client.upload_file(output_path, BUCKET_NAME, output_name)
+    except ClientError as e:
+        logging.error(e)
+        return "Failed to upload output data\n"
     
     return cnt
 

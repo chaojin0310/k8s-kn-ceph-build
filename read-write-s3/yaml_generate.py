@@ -11,7 +11,6 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 with open('service.yaml', 'r') as f:
     data = load(f, Loader=Loader)
     container_list = data['spec']['template']['spec']['containers']
-    print(container_list)
 
     for container in container_list:
         env_list = container['env']
