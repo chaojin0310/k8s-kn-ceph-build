@@ -32,8 +32,8 @@ def read(filename, split = " "):
             tmpstr = f.readline()
     return return_list
 
-@app.route('/num/<num>')
-def wc_reduce(num):
+@app.route('/id/<id>')
+def wc_reduce(id):
     s3_client = boto3.client(
         service_name='s3',
         endpoint_url='http://{}:{}'.format(AWS_HOST, AWS_PORT),
@@ -42,13 +42,13 @@ def wc_reduce(num):
     )
 
     cnt = dict()
-    return num
+    return id
 
     # iterate over all intermediate files
-    for id in range(max_id):
+    for i in range(id+1):
         # download intermediate data from s3
-        input_path = "/app/intermediate_data_"+str(id)
-        input_name = "intermediate_data_"+str(id)
+        input_path = "/app/intermediate_data_"+str(i)
+        input_name = "intermediate_data_"+str(i)
         try:
             s3_client.download_file(BUCKET_NAME, input_name, input_path)
         except ClientError as e:
