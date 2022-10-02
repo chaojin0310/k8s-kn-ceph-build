@@ -1,6 +1,6 @@
 # Build a Kubernetes cluster with Knative and Ceph
 
-## 1. Start up a X-node cluster on Cloudlab (X$\ge$4)
+## 1. Start up a X-node cluster on Cloudlab (X>=4)
 
 1. The following steps require a **bash** environment. Please configure the default shell in your CloudLab account to be bash. For how to configure bash on Cloudlab, Please refer to the post "Choose your shell": https://www.cloudlab.us/portal-news.php?idx=49
 2. When starting a new experiment on Cloudlab, select the **small-lan** profile
