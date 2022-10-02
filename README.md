@@ -12,7 +12,7 @@
 
 Run `./partition.sh` at each node. The **partition.sh** script will reboot the server. 
 
-*Note that this step is needed to perform **only once** after the cluster starts, whether the node is rebooted or reloaded.*
+*Note that this step is needed to perform **only once** after the cluster starts, no matter the node is rebooted or reloaded.*
 
 ## 3. Mount the smaller partition at ~/data
 
@@ -31,7 +31,7 @@ Run `./mount.sh` at each node after the node finishes rebooting.
 1. Run `./k8s_build.sh` at each node. This script compiles k8s from its source code (release-1.25). The `make` process will last for about 10 minutes. You could also reference to `_k8s_install.sh` to install some k8s tools using **apt**.
 2. Choose a node as your k8s cluster controller. 
 3. At the controller node, run `./controller.sh <controller_ip>`, where `<controller_ip>` is the public IP address of the controller node.
-4. At other nodes, run `sudo kubeadm join <controller_ip> --token <token> # --discovery-token-ca-cert-hash <hash>` after the controller has been intialized. The `kubeadm join` command is generated from the controller node.
+4. At other nodes, run `sudo kubeadm join <controller_ip> --token <token> --discovery-token-ca-cert-hash <hash>` after the controller has been intialized. The `kubeadm join` command is generated at the controller node.
 
 ### Rebuild the k8s cluster
 
