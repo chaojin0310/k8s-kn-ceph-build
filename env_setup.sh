@@ -26,12 +26,11 @@ EOF
 sudo sysctl --system
 sudo modprobe br_netfilter
 
+# Install docker
 sudo apt update
 sudo apt install -y docker.io
 sudo systemctl start docker && sudo systemctl enable docker
 sudo gpasswd -a $USER docker
-# docker version
-echo "====== please check whether docker is ready ======"
 
 # Install go1.19
 sudo apt-get purge golang*
@@ -51,6 +50,5 @@ echo "export GOROOT=$GOROOT" >> ~/.bashrc
 echo "export GOPATH=$HOME/data/go" >> ~/.bashrc
 echo "export KO_DOCKER_REPO=docker.io/chaojin0310/" >> ~/.bashrc
 echo "export PATH=$PATH:$GOROOT/bin:$GOPATH/bin" >> ~/.bashrc
-# source ~/.bashrc
 echo "please source ~/.bashrc"
 echo "please reconnect the server and then docker login!!!"

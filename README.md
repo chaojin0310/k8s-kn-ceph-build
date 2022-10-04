@@ -28,7 +28,7 @@ Run `./mount.sh` at each node after the node finishes rebooting.
 
 ## 5. Install Kubernetes and Build a k8s cluster
 
-1. Run `./k8s_build.sh` at each node. This script compiles k8s from its source code (release-1.25). The `make` process will last for about 10 minutes. You could also reference to `_k8s_install.sh` to install some k8s tools using **apt**.
+1. Run `./k8s_build.sh` at each node. This script compiles k8s from its source code (release-1.25). The `make` process will last for about 10 minutes. You could also reference to `k8s_install.sh` to install some k8s tools using **apt**.
 2. Choose a node as your k8s cluster controller. 
 3. At the controller node, run `./controller.sh <controller_ip>`, where `<controller_ip>` is the public IP address of the controller node.
 4. At other nodes, run `sudo kubeadm join <controller_ip> --token <token> --discovery-token-ca-cert-hash <hash>` after the controller has been intialized. The `kubeadm join` command is generated at the controller node.
@@ -39,11 +39,31 @@ If you want to modify some k8s code and remake it, run `./k8s_rebuild.sh` at eac
 
 ## 6. Install Knative Serving
 
-Run `./_kn_install.sh` at the controller node.
+Run `./kn_install.sh` at the controller node.
 
 *If you need to compile Knative manually, please refer to `kn_build.sh`*.
 
 ## 7. Install Ceph Object Storage
+
+1. Run `./ceph_install.sh` at the controller node.
+2. Run `source ~/.bashrc` after the ceph cluster finishes initialization.
+
+---
+# Build a Ceph object storage on top of a Kubernetes cluster
+
+## 1. Start up a X-node cluster on Cloudlab (X>=4)
+
+## 2. Partition the extra disk
+
+## 3. Mount the smaller partition at ~/data
+
+## 4. Install k8s and build a cluster
+
+1. Run `./k8s_install.sh master <controller_ip>` at the controller node and run `./k8s_install.sh slave` at other nodes. 
+2. At other nodes, run `sudo kubeadm join <controller_ip> --token <token> --discovery-token-ca-cert-hash <hash>` after the controller has been intialized. The `kubeadm join` command is generated at the controller node.
+3. Run `source ~/.bashrc` at all nodes.
+
+## 5. Install Ceph Object Storage
 
 1. Run `./ceph_install.sh` at the controller node.
 2. Run `source ~/.bashrc` after the ceph cluster finishes initialization.

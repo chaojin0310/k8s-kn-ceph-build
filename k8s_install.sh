@@ -28,6 +28,7 @@ sudo iptables-save
 
 # Disable swap
 sudo swapoff -a
+cat /etc/fstab | grep -v '^#' | grep -v 'swap' | sudo tee /etc/fstab
 
 # Enable iptables bridge
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
@@ -42,11 +43,14 @@ EOF
 sudo sysctl --system
 sudo modprobe br_netfilter
 
+# Install docker
 sudo apt update
 sudo apt install -y docker.io
 sudo systemctl start docker && sudo systemctl enable docker
-sudo docker -v
-echo "====== please check whether docker is ready ======"
+# To address the docker permission problem, run commands below
+# sudo groupadd docker
+sudo gpasswd -a $USER docker
+# sudo newgrp docker
 
 # Install go1.19
 sudo apt-get purge golang*
@@ -59,11 +63,14 @@ sudo rm -r /usr/local/go
 # add new go bin files
 sudo mv go /usr/local
 
-GOROOT=/usr/local/go
-echo "export GOROOT=/usr/local/go" >> ~/.bashrc
-echo "export PATH=$PATH:$GOROOT/bin"  >>  ~/.bashrc
-source ~/.bashrc
 cd ~
+GOROOT=/usr/local/go
+GOPATH=$HOME/data/go
+echo "export GOROOT=$GOROOT" >> ~/.bashrc
+echo "export GOPATH=$HOME/data/go" >> ~/.bashrc
+# echo "export KO_DOCKER_REPO=docker.io/chaojin0310/" >> ~/.bashrc
+echo "export PATH=$PATH:$GOROOT/bin:$GOPATH/bin" >> ~/.bashrc
+echo "please source ~/.bashrc"
 
 # Install kubelet and kubeadm
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl
@@ -100,11 +107,9 @@ fi
 # e.g.,
 # sudo kubeadm join 128.110.218.67:6443 --token 2odkvh.i8ahh5ypnoozdwlx \
 # --discovery-token-ca-cert-hash sha256:ee24f0b625a442ac832181cbf64adca1a15e1cbc66987cea5fca0dc832fd7b19
-
-# To address the docker permission problem, run commands below:
-# sudo groupadd docker
-# sudo gpasswd -a $USER docker
-# sudo newgrp docker
-# docker version
+# or use 
+# kubeadm token create --print-join-command
+# to get the join command
 
 echo "please source ~/.bashrc"
+# echo "please reconnect the server and then docker login!!!"
