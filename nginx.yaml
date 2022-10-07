@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-deployment
+  name: nginx-deployment
 spec:
   selector:
     matchLabels:
@@ -14,13 +14,18 @@ spec:
     spec:
       volumes:
       - name: shm
-        emptyDir:
-          medium: Memory
+        hostPath:
+          path: /dev/shm
+          type: DirectoryOrCreate
+        # emptyDir:
+        #   medium: Memory
       containers:
-      - name: hello
+      - name: nginx
         image: nginx:1.14.2
         ports:
         - containerPort: 80
         volumeMounts:
         - mountPath: /dev/shm
           name: shm
+        securityContext:
+          privileged: true
